@@ -1,0 +1,8 @@
+Leyendo malla hexagonal 
+Leyendo raster: H:/My Drive/Data/SSPs/Gridded/Pop/SSP5/SPP5/SSP5_2100.tif 
+Bloque usado por el extractor: rows 5947-8132, cols 6927-11454 (2186 x 4528) 
+Overview generado: H:\My Drive\CapitalNaturalMexicoShiny/diagnostics/population_block_SSP5_2100_overview.png 
+Zoom cells construidas: 210 
+Zoom generado: H:\My Drive\CapitalNaturalMexicoShiny/diagnostics/population_block_SSP5_2100_hex_HEX0032029_zoom.png 
+Listo 
+Hex usado para el zoom: HEX0032029 
