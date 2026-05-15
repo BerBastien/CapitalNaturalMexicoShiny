@@ -1,47 +1,68 @@
 # Capital Natural Mexico Shiny
 
-This repository contains the code and data for the Capital Natural Mexico Shiny application. The application is built using R and Shiny to visualize and analyze environmental data.
+Este repositorio contiene el codigo y los datos de una aplicacion en R Shiny para explorar y analizar indicadores ambientales en Mexico, con enfasis en su relacion con los servicios ecosistemicos.
 
-## Folder Structure
+## Objetivo del proyecto
 
-- **server.R**: Contains the server-side logic for the Shiny app.
-- **ui.R**: Contains the user interface definition for the Shiny app.
-- **data/**: Contains the data files used in the application.
-  - `master_hex_10km.gpkg`: Geopackage file for 10km hexagonal grid.
-  - `master_hex_2km.gpkg`: Geopackage file for 2km hexagonal grid (ignored in version control).
-  - `indicadores/`: Folder containing indicator CSV files.
-- **scripts/**: Contains R scripts for data processing and preparation.
-  - `build_master_hex_10km.R`: Script to build the 10km hexagonal grid.
-  - `build_master_hex.R`: Script to build hexagonal grids.
-  - `create_example_xlsx.R`: Script to create example Excel files.
-  - `create_template_excel.R`: Script to create Excel templates.
-- **www/**: Contains static assets such as CSS files.
-  - `style.css`: Custom styles for the Shiny app.
+La aplicacion integra informacion espacial en tres dominios de variables para apoyar analisis de servicios ecosistemicos:
 
-## Getting Started
+- Dominio climatico: variables como temperatura, precipitacion, clorofila y otros proxies biofisicos que capturan condicion ambiental y dinamica climatica.
+- Dominio humano: variables sociodemograficas y de presion/uso del territorio (por ejemplo poblacion, accesibilidad o infraestructura) que representan demanda, exposicion o impacto humano.
+- Dominio ecologico: variables de estado y funcion de los ecosistemas (cobertura, estructura, productividad, conectividad, entre otras) que ayudan a describir oferta y soporte ecosistemico.
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   ```
+En conjunto, estos tres dominios permiten analizar relaciones entre oferta de servicios ecosistemicos, presiones antropicas y contexto ambiental, en una unidad espacial comun.
 
-2. Open the R project in RStudio.
+## Enfoque espacial: muestreo con malla hexagonal
 
-3. Install the required R packages:
-   ```R
-   install.packages(c("shiny", "sf", "tidyverse"))
-   ```
+El flujo de trabajo usa una malla hexagonal (p. ej. 10 km y, en algunos procesos, 2 km) como unidad de analisis espacial.
 
-4. Run the Shiny app:
-   ```R
-   shiny::runApp()
-   ```
+- Estandarizacion espacial: todos los indicadores se llevan a una misma geometria para hacer comparaciones consistentes entre variables y regiones.
+- Muestreo y agregacion: los valores raster o vectoriales se extraen/intersectan por hexagono y se resumen (media, suma, proporcion, etc.) segun el tipo de variable.
+- Escalabilidad: la malla facilita correr procesos nacionales de forma reproducible y permite cambiar resolucion segun el analisis.
+- Integracion multisectorial: al compartir la misma unidad espacial, se pueden combinar capas climaticas, humanas y ecologicas en indicadores compuestos o analisis comparativos.
 
-## Notes
+## Estructura de carpetas
 
-- The `data/master_hex_2km.gpkg` file is ignored in version control to reduce repository size.
-- Ensure that all required data files are present in the `data/` folder before running the app.
+- **server.R**: logica del servidor de la aplicacion Shiny.
+- **ui.R**: definicion de la interfaz de usuario.
+- **data/**: datos de entrada de la aplicacion.
+  - `master_hex_10km.gpkg`: geopackage de la malla hexagonal de 10 km.
+  - `master_hex_2km.gpkg`: geopackage de la malla hexagonal de 2 km (normalmente fuera de control de versiones por tamano).
+  - `indicadores/`: archivos CSV de indicadores.
+- **scripts/**: scripts de preparacion, depuracion y validacion de datos.
+  - `build_master_hex_10km.R`: construccion de malla hexagonal de 10 km.
+  - `build_master_hex.R`: construccion de grillas hexagonales.
+  - `build_population_*.R`: procesos para capas de poblacion en distintos escenarios.
+  - `diag_*.R` y `check_*.R`: diagnosticos y verificaciones de consistencia.
+- **www/**: recursos estaticos de la aplicacion (por ejemplo estilos CSS).
 
-## License
+## Puesta en marcha
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+1. Clona este repositorio:
+
+  ```bash
+  git clone <repository-url>
+  ```
+
+2. Abre el proyecto en RStudio (o en tu entorno R preferido).
+
+3. Instala paquetes requeridos:
+
+  ```r
+  install.packages(c("shiny", "sf", "tidyverse"))
+  ```
+
+4. Ejecuta la aplicacion:
+
+  ```r
+  shiny::runApp()
+  ```
+
+## Notas
+
+- Algunos archivos grandes (como ciertas grillas de alta resolucion) pueden excluirse del control de versiones para reducir peso del repositorio.
+- Verifica que los insumos requeridos esten presentes en `data/` antes de correr la aplicacion o los scripts de preprocesamiento.
+
+## Notas
+
+Elaborado como parte del proyecto SECIHTI CBF-2025-I-345
